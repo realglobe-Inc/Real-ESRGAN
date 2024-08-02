@@ -75,7 +75,7 @@ def get_version():
 def get_requirements(filename='requirements.txt'):
     here = os.path.dirname(os.path.realpath(__file__))
     with open(os.path.join(here, filename), 'r') as f:
-        requires = [line.replace('\n', '') for line in f.readlines()]
+        requires = [line.strip() for line in f.readlines() if not line.startswith('-f')]
     return requires
 
 
