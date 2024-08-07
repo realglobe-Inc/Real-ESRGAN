@@ -13,7 +13,7 @@ def main():
     """Inference demo for Real-ESRGAN.
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input', type=str, default='inputs', help='Input image or folder')
+    parser.add_argument('-i', '--input', type=str, default='input', help='Input image or folder')
     parser.add_argument(
         '-n',
         '--model_name',
@@ -21,7 +21,7 @@ def main():
         default='RealESRGAN_x4plus',
         help=('Model names: RealESRGAN_x4plus | RealESRNet_x4plus | RealESRGAN_x4plus_anime_6B | RealESRGAN_x2plus | '
               'realesr-animevideov3 | realesr-general-x4v3'))
-    parser.add_argument('-o', '--output', type=str, default='results', help='Output folder')
+    parser.add_argument('-o', '--output', type=str, default='output', help='Output folder')
     parser.add_argument(
         '-dn',
         '--denoise_strength',
@@ -53,6 +53,8 @@ def main():
         '-g', '--gpu-id', type=int, default=None, help='gpu device to use (default=None) can be 0,1,2 for multi-gpu')
 
     args = parser.parse_args()
+    args.input = os.path.expanduser(args.input)
+    args.output = os.path.expanduser(args.output)
 
     # determine models according to model names
     args.model_name = args.model_name.split('.')[0]
