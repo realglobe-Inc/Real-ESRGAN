@@ -2,6 +2,8 @@ import argparse
 import cv2
 import glob
 import os
+from pathlib import Path
+
 from basicsr.archs.rrdbnet_arch import RRDBNet
 from basicsr.utils.download_util import load_file_from_url
 
@@ -9,9 +11,24 @@ from realesrgan import RealESRGANer
 from realesrgan.archs.srvgg_arch import SRVGGNetCompact
 
 
+def fix_relative_path(path):
+    if os.path.isabs(path):
+        return path
+    else:
+        return os.path.join('.', os.path.relpath(path, start=Path('.')))
+
+
+def sorted_glob(patterns):
+    files = []
+    for pattern in patterns:
+        files.extend(glob.glob(pattern, recursive=True))
+    return sorted(files)
+
+
 def main():
     """Inference demo for Real-ESRGAN.
     """
+
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', type=str, default='input', help='Input image or folder')
     parser.add_argument(
@@ -32,7 +49,7 @@ def main():
     parser.add_argument('-s', '--outscale', type=float, default=4, help='The final upsampling scale of the image')
     parser.add_argument(
         '--model_path', type=str, default=None, help='[Option] Model path. Usually, you do not need to specify it')
-    parser.add_argument('--suffix', type=str, default='out', help='Suffix of the restored image')
+    parser.add_argument('--suffix', type=str, default='', help='Suffix of the restored image')
     parser.add_argument('-t', '--tile', type=int, default=0, help='Tile size, 0 for no tile during testing')
     parser.add_argument('--tile_pad', type=int, default=10, help='Tile padding')
     parser.add_argument('--pre_pad', type=int, default=0, help='Pre padding size at each border')
@@ -53,8 +70,8 @@ def main():
         '-g', '--gpu-id', type=int, default=None, help='gpu device to use (default=None) can be 0,1,2 for multi-gpu')
 
     args = parser.parse_args()
-    args.input = os.path.expanduser(args.input)
-    args.output = os.path.expanduser(args.output)
+    args.input = os.path.expanduser(fix_relative_path(args.input))
+    args.output = os.path.expanduser(fix_relative_path(args.output))
 
     # determine models according to model names
     args.model_name = args.model_name.split('.')[0]
@@ -127,10 +144,11 @@ def main():
             bg_upsampler=upsampler)
     os.makedirs(args.output, exist_ok=True)
 
-    if os.path.isfile(args.input):
-        paths = [args.input]
-    else:
-        paths = sorted(glob.glob(os.path.join(args.input, '*')))
+    img_patterns = [
+        os.path.join(os.path.expanduser(args.input), '**', '*.jpg'),
+        os.path.join(os.path.expanduser(args.input), '**', '*.png')
+    ]
+    paths = sorted_glob(img_patterns)
 
     for idx, path in enumerate(paths):
         imgname, extension = os.path.splitext(os.path.basename(path))
@@ -158,9 +176,13 @@ def main():
             if img_mode == 'RGBA':  # RGBA images should be saved in png format
                 extension = 'png'
             if args.suffix == '':
-                save_path = os.path.join(args.output, f'{imgname}.{extension}')
+                new_image_path = os.path.join(os.path.dirname(path), f'{imgname}.{extension}')
             else:
-                save_path = os.path.join(args.output, f'{imgname}_{args.suffix}.{extension}')
+                new_image_path = os.path.join(os.path.dirname(path), f'{imgname}_{args.suffix}.{extension}')
+
+            relative_path = os.path.relpath(new_image_path, start=Path(args.input))
+            save_path = os.path.join(args.output, relative_path)
+            os.makedirs(os.path.dirname(save_path), exist_ok=True)
             cv2.imwrite(save_path, output)
 
 
