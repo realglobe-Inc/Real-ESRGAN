@@ -9,6 +9,7 @@ from basicsr.utils.download_util import load_file_from_url
 
 from realesrgan import RealESRGANer
 from realesrgan.archs.srvgg_arch import SRVGGNetCompact
+from tqdm import tqdm
 
 
 def fix_relative_path(path):
@@ -148,9 +149,11 @@ def main():
   ]
   paths = sorted_glob(img_patterns)
 
+  pbar = tqdm(total=len(paths), desc="Real-ESRGAN Processing", unit="item")
   for idx, path in enumerate(paths):
     imgname, extension = os.path.splitext(os.path.basename(path))
-    print('Testing', idx, imgname)
+    pbar.set_description(f'Processing({imgname})')
+    # print('Testing', idx, imgname)
 
     img = cv2.imread(path, cv2.IMREAD_UNCHANGED)
     if len(img.shape) == 3 and img.shape[2] == 4:
@@ -166,7 +169,8 @@ def main():
     except RuntimeError as error:
       print('Error', error)
       print('If you encounter CUDA out of memory, try to set --tile with a smaller number.')
-    else:
+      output = img
+    finally:
       if args.ext == 'auto':
         extension = extension[1:]
       else:
@@ -182,6 +186,8 @@ def main():
       save_path = os.path.join(args.output, relative_path)
       os.makedirs(os.path.dirname(save_path), exist_ok=True)
       cv2.imwrite(save_path, output)
+
+      pbar.update(1)
 
 
 if __name__ == '__main__':
