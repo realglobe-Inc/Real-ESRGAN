@@ -1,9 +1,10 @@
-import cv2
 import math
-import numpy as np
 import os
 import queue
 import threading
+
+import cv2
+import numpy as np
 import torch
 from basicsr.utils.download_util import load_file_from_url
 from torch.nn import functional as F
@@ -160,7 +161,6 @@ class RealESRGANer():
                         output_tile = self.model(input_tile)
                 except RuntimeError as error:
                     print('Error', error)
-                print(f'\tTile {tile_idx}/{tiles_x * tiles_y}')
 
                 # output tile area on total image
                 output_start_x = input_start_x * self.scale
@@ -176,8 +176,8 @@ class RealESRGANer():
 
                 # put tile into output image
                 self.output[:, :, output_start_y:output_end_y,
-                            output_start_x:output_end_x] = output_tile[:, :, output_start_y_tile:output_end_y_tile,
-                                                                       output_start_x_tile:output_end_x_tile]
+                output_start_x:output_end_x] = output_tile[:, :, output_start_y_tile:output_end_y_tile,
+                                               output_start_x_tile:output_end_x_tile]
 
     def post_process(self):
         # remove extra pad
