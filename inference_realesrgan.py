@@ -68,7 +68,7 @@ def main():
         help='Image extension. Options: auto | jpg | png, auto means using the same extension as inputs')
     parser.add_argument(
         '-g', '--gpu-id', type=int, default=None, help='gpu device to use (default=None) can be 0,1,2 for multi-gpu')
-    parser.add_argument('--input-ext', type=str, default='png', help='Input image extension')
+    parser.add_argument('--input-ext', type=str, default='all', help='Input image extension: all | jpg | jpeg | png')
 
     args = parser.parse_args()
     args.input = fix_relative_path(args.input)
@@ -145,9 +145,28 @@ def main():
             bg_upsampler=upsampler)
     os.makedirs(args.output, exist_ok=True)
 
-    img_patterns = [
-        os.path.join(os.path.expanduser(args.input), '**', f'*.{args.input_ext}'),
-    ]
+    # Build case-insensitive glob patterns based on input extension
+    input_ext = args.input_ext.lower()
+    if input_ext == 'all':
+        img_patterns = [
+            os.path.join(args.input, '**', '*.[jJ][pP][gG]'),
+            os.path.join(args.input, '**', '*.[jJ][pP][eE][gG]'),
+            os.path.join(args.input, '**', '*.[pP][nN][gG]'),
+        ]
+    elif input_ext in ('jpg', 'jpeg'):
+        img_patterns = [
+            os.path.join(args.input, '**', '*.[jJ][pP][gG]'),
+            os.path.join(args.input, '**', '*.[jJ][pP][eE][gG]'),
+        ]
+    elif input_ext == 'png':
+        img_patterns = [
+            os.path.join(args.input, '**', '*.[pP][nN][gG]'),
+        ]
+    else:
+        # Fallback: use specified extension as-is (case-sensitive)
+        img_patterns = [
+            os.path.join(args.input, '**', f'*.{args.input_ext}'),
+        ]
     paths = sorted_glob(img_patterns)
 
     isatty = sys.stdout.isatty()
