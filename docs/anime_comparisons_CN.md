@@ -16,7 +16,8 @@
 我们将 RealESRGAN-AnimeVideo-v3 与以下方法进行了比较。我们的 RealESRGAN-AnimeVideo-v3 可以以更快的推理速度获得更好的结果。
 
 - [waifu2x](https://github.com/nihui/waifu2x-ncnn-vulkan). 超参数: `tile=0`, `noiselevel=2`
-- [Real-CUGAN](https://github.com/bilibili/ailab/tree/main/Real-CUGAN): 我们使用了[20220227](https://github.com/bilibili/ailab/releases/tag/Real-CUGAN-add-faster-low-memory-mode)版本, 超参: `cache_mode=0`, `tile=0`, `alpha=1`.
+- [Real-CUGAN](https://github.com/bilibili/ailab/tree/main/Real-CUGAN): 我们使用了[20220227](https://github.com/bilibili/ailab/releases/tag/Real-CUGAN-add-faster-low-memory-mode)版本, 超参:
+  `cache_mode=0`, `tile=0`, `alpha=1`.
 - 我们的 RealESRGAN-AnimeVideo-v3
 
 ## 结果

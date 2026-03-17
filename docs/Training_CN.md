@@ -25,6 +25,7 @@
 
 我们使用 DF2K ( DIV2K 和 Flickr2K ) + OST 数据集进行训练。只需要HR图像！<br>
 下面是网站链接:
+
 1. DIV2K: http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip
 2. Flickr2K: https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar
 3. OST: https://openmmlab.oss-cn-hangzhou.aliyuncs.com/datasets/OST_dataset.zip
@@ -33,7 +34,8 @@
 
 #### 第1步：【可选】生成多尺寸图片
 
-针对 DF2K 数据集，我们使用多尺寸缩放策略，*换言之*，我们对 HR 图像进行下采样，就能获得多尺寸的标准参考（Ground-Truth）图像。 <br>
+针对 DF2K 数据集，我们使用多尺寸缩放策略，
+*换言之*，我们对 HR 图像进行下采样，就能获得多尺寸的标准参考（Ground-Truth）图像。 <br>
 您可以使用这个 [scripts/generate_multiscale_DF2K.py](scripts/generate_multiscale_DF2K.py) 脚本快速生成多尺寸的图像。<br>
 注意：如果您只想简单试试，那么可以跳过此步骤。
 
@@ -54,7 +56,8 @@ python scripts/generate_multiscale_DF2K.py --input datasets/DF2K/DF2K_HR --outpu
 
 #### 第3步：准备元信息 txt
 
-您需要准备一个包含图像路径的 txt 文件。下面是 `meta_info_DF2Kmultiscale+OST_sub.txt` 中的部分展示（由于各个用户可能有截然不同的子图像划分，这个文件不适合你的需求，你得准备自己的 txt 文件)：
+您需要准备一个包含图像路径的 txt 文件。下面是
+`meta_info_DF2Kmultiscale+OST_sub.txt` 中的部分展示（由于各个用户可能有截然不同的子图像划分，这个文件不适合你的需求，你得准备自己的 txt 文件)：
 
 ```txt
 DF2K_HR_sub/000001_s001.png
@@ -72,7 +75,8 @@ DF2K_HR_sub/000001_s003.png
 
 ### 训练 Real-ESRNet 模型
 
-1. 下载预先训练的模型 [ESRGAN](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.1/ESRGAN_SRx4_DF2KOST_official-ff704c30.pth)，放到 `experiments/pretrained_models`目录下。
+1. 下载预先训练的模型 [ESRGAN](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.1/ESRGAN_SRx4_DF2KOST_official-ff704c30.pth)，放到
+   `experiments/pretrained_models`目录下。
     ```bash
     wget https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.1/ESRGAN_SRx4_DF2KOST_official-ff704c30.pth -P experiments/pretrained_models
     ```
@@ -117,7 +121,7 @@ DF2K_HR_sub/000001_s003.png
     python -m torch.distributed.launch --nproc_per_node=4 --master_port=4321 realesrgan/train.py -opt options/train_realesrnet_x4plus.yml --launcher pytorch --debug
     ```
 
-    用 **1个GPU** 训练的 debug 模式示例:
+   用 **1个GPU** 训练的 debug 模式示例:
     ```bash
     python realesrgan/train.py -opt options/train_realesrnet_x4plus.yml --debug
     ```
@@ -127,14 +131,16 @@ DF2K_HR_sub/000001_s003.png
     python -m torch.distributed.launch --nproc_per_node=4 --master_port=4321 realesrgan/train.py -opt options/train_realesrnet_x4plus.yml --launcher pytorch --auto_resume
     ```
 
-    用 **1个GPU** 训练：
+   用 **1个GPU** 训练：
     ```bash
     python realesrgan/train.py -opt options/train_realesrnet_x4plus.yml --auto_resume
     ```
 
 ### 训练 Real-ESRGAN 模型
 
-1. 训练 Real-ESRNet 模型后，您得到了这个 `experiments/train_RealESRNetx4plus_1000k_B12G4_fromESRGAN/model/net_g_1000000.pth` 文件。如果需要指定预训练路径到其他文件，请修改选项文件 `train_realesrgan_x4plus.yml` 中 `pretrain_network_g` 的值。
+1. 训练 Real-ESRNet 模型后，您得到了这个
+   `experiments/train_RealESRNetx4plus_1000k_B12G4_fromESRGAN/model/net_g_1000000.pth` 文件。如果需要指定预训练路径到其他文件，请修改选项文件
+   `train_realesrgan_x4plus.yml` 中 `pretrain_network_g` 的值。
 1. 修改选项文件 `train_realesrgan_x4plus.yml` 的内容。大多数修改与上节提到的类似。
 1. 正式训练之前，你可以以 `--debug` 模式检查是否正常运行。我们使用了4个GPU进行训练：
     ```bash
@@ -142,7 +148,7 @@ DF2K_HR_sub/000001_s003.png
     python -m torch.distributed.launch --nproc_per_node=4 --master_port=4321 realesrgan/train.py -opt options/train_realesrgan_x4plus.yml --launcher pytorch --debug
     ```
 
-    用 **1个GPU** 训练的 debug 模式示例:
+   用 **1个GPU** 训练的 debug 模式示例:
     ```bash
     python realesrgan/train.py -opt options/train_realesrgan_x4plus.yml --debug
     ```
@@ -152,7 +158,7 @@ DF2K_HR_sub/000001_s003.png
     python -m torch.distributed.launch --nproc_per_node=4 --master_port=4321 realesrgan/train.py -opt options/train_realesrgan_x4plus.yml --launcher pytorch --auto_resume
     ```
 
-    用 **1个GPU** 训练：
+   用 **1个GPU** 训练：
     ```bash
     python realesrgan/train.py -opt options/train_realesrgan_x4plus.yml --auto_resume
     ```
@@ -208,6 +214,7 @@ python -m torch.distributed.launch --nproc_per_node=4 --master_port=4321 realesr
 ```
 
 用 **1个GPU** 训练：
+
 ```bash
 python realesrgan/train.py -opt options/finetune_realesrgan_x4plus.yml --auto_resume
 ```
@@ -245,7 +252,8 @@ python scripts/generate_meta_info_pairdata.py --input datasets/DF2K/DIV2K_train_
 
 **3. 微调**
 
-修改选项文件 [options/finetune_realesrgan_x4plus_pairdata.yml](options/finetune_realesrgan_x4plus_pairdata.yml) ，特别是 `datasets` 部分：
+修改选项文件 [options/finetune_realesrgan_x4plus_pairdata.yml](options/finetune_realesrgan_x4plus_pairdata.yml) ，特别是
+`datasets` 部分：
 
 ```yml
 train:
@@ -266,6 +274,7 @@ python -m torch.distributed.launch --nproc_per_node=4 --master_port=4321 realesr
 ```
 
 用 **1个GPU** 训练：
+
 ```bash
 python realesrgan/train.py -opt options/finetune_realesrgan_x4plus_pairdata.yml --auto_resume
 ```

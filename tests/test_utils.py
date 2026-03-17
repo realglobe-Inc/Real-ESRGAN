@@ -8,24 +8,28 @@ def test_realesrganer():
     # initialize with default model
     restorer = RealESRGANer(
         scale=4,
-        model_path='experiments/pretrained_models/RealESRGAN_x4plus.pth',
+        model_path="experiments/pretrained_models/RealESRGAN_x4plus.pth",
         model=None,
         tile=10,
         tile_pad=10,
         pre_pad=2,
-        half=False)
+        half=False,
+    )
     assert isinstance(restorer.model, RRDBNet)
     assert restorer.half is False
     # initialize with user-defined model
-    model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=6, num_grow_ch=32, scale=4)
+    model = RRDBNet(
+        num_in_ch=3, num_out_ch=3, num_feat=64, num_block=6, num_grow_ch=32, scale=4
+    )
     restorer = RealESRGANer(
         scale=4,
-        model_path='experiments/pretrained_models/RealESRGAN_x4plus_anime_6B.pth',
+        model_path="experiments/pretrained_models/RealESRGAN_x4plus_anime_6B.pth",
         model=model,
         tile=10,
         tile_pad=10,
         pre_pad=2,
-        half=True)
+        half=True,
+    )
     # test attribute
     assert isinstance(restorer.model, RRDBNet)
     assert restorer.half is True
@@ -59,29 +63,29 @@ def test_realesrganer():
     img = np.random.random((12, 12, 3)).astype(np.float32)
     result = restorer.enhance(img, outscale=2)
     assert result[0].shape == (24, 24, 3)
-    assert result[1] == 'RGB'
+    assert result[1] == "RGB"
 
     # ------------------ test enhance with 16-bit image---------------- #
     img = np.random.random((4, 4, 3)).astype(np.uint16) + 512
     result = restorer.enhance(img, outscale=2)
     assert result[0].shape == (8, 8, 3)
-    assert result[1] == 'RGB'
+    assert result[1] == "RGB"
 
     # ------------------ test enhance with gray image---------------- #
     img = np.random.random((4, 4)).astype(np.float32)
     result = restorer.enhance(img, outscale=2)
     assert result[0].shape == (8, 8)
-    assert result[1] == 'L'
+    assert result[1] == "L"
 
     # ------------------ test enhance with RGBA---------------- #
     img = np.random.random((4, 4, 4)).astype(np.float32)
     result = restorer.enhance(img, outscale=2)
     assert result[0].shape == (8, 8, 4)
-    assert result[1] == 'RGBA'
+    assert result[1] == "RGBA"
 
     # ------------------ test enhance with RGBA, alpha_upsampler---------------- #
     restorer.tile_size = 0
     img = np.random.random((4, 4, 4)).astype(np.float32)
     result = restorer.enhance(img, outscale=2, alpha_upsampler=None)
     assert result[0].shape == (8, 8, 4)
-    assert result[1] == 'RGBA'
+    assert result[1] == "RGBA"

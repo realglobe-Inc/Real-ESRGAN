@@ -33,7 +33,8 @@ Here are steps for data preparation.
 
 #### Step 1: [Optional] Generate multi-scale images
 
-For the DF2K dataset, we use a multi-scale strategy, *i.e.*, we downsample HR images to obtain several Ground-Truth images with different scales. <br>
+For the DF2K dataset, we use a multi-scale strategy,
+*i.e.*, we downsample HR images to obtain several Ground-Truth images with different scales. <br>
 You can use the [scripts/generate_multiscale_DF2K.py](scripts/generate_multiscale_DF2K.py) script to generate multi-scale images. <br>
 Note that this step can be omitted if you just want to have a fast try.
 
@@ -54,7 +55,8 @@ You can use the [scripts/extract_subimages.py](scripts/extract_subimages.py) scr
 
 #### Step 3: Prepare a txt for meta information
 
-You need to prepare a txt file containing the image paths. The following are some examples in `meta_info_DF2Kmultiscale+OST_sub.txt` (As different users may have different sub-images partitions, this file is not suitable for your purpose and you need to prepare your own txt file):
+You need to prepare a txt file containing the image paths. The following are some examples in
+`meta_info_DF2Kmultiscale+OST_sub.txt` (As different users may have different sub-images partitions, this file is not suitable for your purpose and you need to prepare your own txt file):
 
 ```txt
 DF2K_HR_sub/000001_s001.png
@@ -72,7 +74,8 @@ You can merge several folders into one meta_info txt. Here is the example:
 
 ### Train Real-ESRNet
 
-1. Download pre-trained model [ESRGAN](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.1/ESRGAN_SRx4_DF2KOST_official-ff704c30.pth) into `experiments/pretrained_models`.
+1. Download pre-trained model [ESRGAN](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.1/ESRGAN_SRx4_DF2KOST_official-ff704c30.pth) into
+   `experiments/pretrained_models`.
     ```bash
     wget https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.1/ESRGAN_SRx4_DF2KOST_official-ff704c30.pth -P experiments/pretrained_models
     ```
@@ -111,48 +114,55 @@ You can merge several folders into one meta_info txt. Here is the example:
       #       crop_border: 4
       #       test_y_channel: false
     ```
-1. Before the formal training, you may run in the `--debug` mode to see whether everything is OK. We use four GPUs for training:
+1. Before the formal training, you may run in the
+   `--debug` mode to see whether everything is OK. We use four GPUs for training:
     ```bash
     CUDA_VISIBLE_DEVICES=0,1,2,3 \
     python -m torch.distributed.launch --nproc_per_node=4 --master_port=4321 realesrgan/train.py -opt options/train_realesrnet_x4plus.yml --launcher pytorch --debug
     ```
 
-    Train with **a single GPU** in the *debug* mode:
+   Train with **a single GPU** in the *debug* mode:
     ```bash
     python realesrgan/train.py -opt options/train_realesrnet_x4plus.yml --debug
     ```
-1. The formal training. We use four GPUs for training. We use the `--auto_resume` argument to automatically resume the training if necessary.
+1. The formal training. We use four GPUs for training. We use the
+   `--auto_resume` argument to automatically resume the training if necessary.
     ```bash
     CUDA_VISIBLE_DEVICES=0,1,2,3 \
     python -m torch.distributed.launch --nproc_per_node=4 --master_port=4321 realesrgan/train.py -opt options/train_realesrnet_x4plus.yml --launcher pytorch --auto_resume
     ```
 
-    Train with **a single GPU**:
+   Train with **a single GPU**:
     ```bash
     python realesrgan/train.py -opt options/train_realesrnet_x4plus.yml --auto_resume
     ```
 
 ### Train Real-ESRGAN
 
-1. After the training of Real-ESRNet, you now have the file `experiments/train_RealESRNetx4plus_1000k_B12G4_fromESRGAN/model/net_g_1000000.pth`. If you need to specify the pre-trained path to other files, modify the `pretrain_network_g` value in the option file `train_realesrgan_x4plus.yml`.
-1. Modify the option file `train_realesrgan_x4plus.yml` accordingly. Most modifications are similar to those listed above.
-1. Before the formal training, you may run in the `--debug` mode to see whether everything is OK. We use four GPUs for training:
+1. After the training of Real-ESRNet, you now have the file
+   `experiments/train_RealESRNetx4plus_1000k_B12G4_fromESRGAN/model/net_g_1000000.pth`. If you need to specify the pre-trained path to other files, modify the
+   `pretrain_network_g` value in the option file `train_realesrgan_x4plus.yml`.
+1. Modify the option file
+   `train_realesrgan_x4plus.yml` accordingly. Most modifications are similar to those listed above.
+1. Before the formal training, you may run in the
+   `--debug` mode to see whether everything is OK. We use four GPUs for training:
     ```bash
     CUDA_VISIBLE_DEVICES=0,1,2,3 \
     python -m torch.distributed.launch --nproc_per_node=4 --master_port=4321 realesrgan/train.py -opt options/train_realesrgan_x4plus.yml --launcher pytorch --debug
     ```
 
-    Train with **a single GPU** in the *debug* mode:
+   Train with **a single GPU** in the *debug* mode:
     ```bash
     python realesrgan/train.py -opt options/train_realesrgan_x4plus.yml --debug
     ```
-1. The formal training. We use four GPUs for training. We use the `--auto_resume` argument to automatically resume the training if necessary.
+1. The formal training. We use four GPUs for training. We use the
+   `--auto_resume` argument to automatically resume the training if necessary.
     ```bash
     CUDA_VISIBLE_DEVICES=0,1,2,3 \
     python -m torch.distributed.launch --nproc_per_node=4 --master_port=4321 realesrgan/train.py -opt options/train_realesrgan_x4plus.yml --launcher pytorch --auto_resume
     ```
 
-    Train with **a single GPU**:
+   Train with **a single GPU**:
     ```bash
     python realesrgan/train.py -opt options/train_realesrgan_x4plus.yml --auto_resume
     ```
@@ -188,7 +198,8 @@ Download pre-trained models into `experiments/pretrained_models`.
 
 **3. Finetune**
 
-Modify [options/finetune_realesrgan_x4plus.yml](options/finetune_realesrgan_x4plus.yml) accordingly, especially the `datasets` part:
+Modify [options/finetune_realesrgan_x4plus.yml](options/finetune_realesrgan_x4plus.yml) accordingly, especially the
+`datasets` part:
 
 ```yml
 train:
@@ -208,6 +219,7 @@ python -m torch.distributed.launch --nproc_per_node=4 --master_port=4321 realesr
 ```
 
 Finetune with **a single GPU**:
+
 ```bash
 python realesrgan/train.py -opt options/finetune_realesrgan_x4plus.yml --auto_resume
 ```
@@ -245,7 +257,8 @@ Download pre-trained models into `experiments/pretrained_models`.
 
 **3. Finetune**
 
-Modify [options/finetune_realesrgan_x4plus_pairdata.yml](options/finetune_realesrgan_x4plus_pairdata.yml) accordingly, especially the `datasets` part:
+Modify [options/finetune_realesrgan_x4plus_pairdata.yml](options/finetune_realesrgan_x4plus_pairdata.yml) accordingly, especially the
+`datasets` part:
 
 ```yml
 train:
@@ -266,6 +279,7 @@ python -m torch.distributed.launch --nproc_per_node=4 --master_port=4321 realesr
 ```
 
 Finetune with **a single GPU**:
+
 ```bash
 python realesrgan/train.py -opt options/finetune_realesrgan_x4plus_pairdata.yml --auto_resume
 ```

@@ -76,16 +76,16 @@ train:
     type: Adam
     lr: !!float 1e-4
     weight_decay: 0
-    betas: [0.9, 0.99]
+    betas: [ 0.9, 0.99 ]
   optim_d:
     type: Adam
     lr: !!float 1e-4
     weight_decay: 0
-    betas: [0.9, 0.99]
+    betas: [ 0.9, 0.99 ]
 
   scheduler:
     type: MultiStepLR
-    milestones: [400000]
+    milestones: [ 400000 ]
     gamma: 0.5
 
   total_iter: 400000

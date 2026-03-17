@@ -64,7 +64,8 @@ ffmpeg -i onepiece_demo.mp4 -qscale:v 1 -qmin 1 -qmax 1 -vsync 0 tmp_frames/fram
 
 #### Step 2: Inference with Real-ESRGAN executable file
 
-1. Download the latest portable [Windows](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-windows.zip) / [Linux](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip) / [MacOS](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-macos.zip) **executable files for Intel/AMD/Nvidia GPU**
+1. Download the latest portable [Windows](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-windows.zip) / [Linux](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip) / [MacOS](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-macos.zip)
+   **executable files for Intel/AMD/Nvidia GPU**
 
 1. Taking the Windows as example, run:
 
@@ -72,7 +73,7 @@ ffmpeg -i onepiece_demo.mp4 -qscale:v 1 -qmin 1 -qmax 1 -vsync 0 tmp_frames/fram
     ./realesrgan-ncnn-vulkan.exe -i tmp_frames -o out_frames -n realesr-animevideov3 -s 2 -f jpg
     ```
 
-    - Remember to create the folder `out_frames` ahead
+  - Remember to create the folder `out_frames` ahead
 
 #### Step 3: Merge the enhanced frames back into a video
 
@@ -87,7 +88,7 @@ ffmpeg -i onepiece_demo.mp4 -qscale:v 1 -qmin 1 -qmax 1 -vsync 0 tmp_frames/fram
     -i                   input video path
     ```
 
-    You will get the output similar to the following screenshot.
+   You will get the output similar to the following screenshot.
 
     <p align="center">
         <img src="https://user-images.githubusercontent.com/17445847/145710145-c4f3accf-b82f-4307-9f20-3803a2c73f57.png">
@@ -107,7 +108,7 @@ ffmpeg -i onepiece_demo.mp4 -qscale:v 1 -qmin 1 -qmax 1 -vsync 0 tmp_frames/fram
     -pix_fmt             pixel format in video
     ```
 
-    If you also want to copy audio from the input videos, run:
+   If you also want to copy audio from the input videos, run:
 
      ```bash
     ffmpeg -r 23.98 -i out_frames/frame%08d.jpg -i onepiece_demo.mp4 -map 0:v:0 -map 1:a:0 -c:a copy -c:v libx264 -r 23.98 -pix_fmt yuv420p output_w_audio.mp4
@@ -125,11 +126,11 @@ ffmpeg -i onepiece_demo.mp4 -qscale:v 1 -qmin 1 -qmax 1 -vsync 0 tmp_frames/fram
 
 - Input video for One Piece:
 
-    <https://user-images.githubusercontent.com/17445847/145706822-0e83d9c4-78ef-40ee-b2a4-d8b8c3692d17.mp4>
+  <https://user-images.githubusercontent.com/17445847/145706822-0e83d9c4-78ef-40ee-b2a4-d8b8c3692d17.mp4>
 
 - Out video for One Piece
 
-    <https://user-images.githubusercontent.com/17445847/164960481-759658cf-fcb8-480c-b888-cecb606e8744.mp4>
+  <https://user-images.githubusercontent.com/17445847/164960481-759658cf-fcb8-480c-b888-cecb606e8744.mp4>
 
 **More comparisons**
 

@@ -1,6 +1,7 @@
 # Contributing to Real-ESRGAN
 
-:art: Real-ESRGAN needs your contributions. Any contributions are welcome, such as new features/models/typo fixes/suggestions/maintenance, *etc*. See [CONTRIBUTING.md](docs/CONTRIBUTING.md). All contributors are list [here](README.md#hugs-acknowledgement).
+:art: Real-ESRGAN needs your contributions. Any contributions are welcome, such as new features/models/typo fixes/suggestions/maintenance,
+*etc*. See [CONTRIBUTING.md](docs/CONTRIBUTING.md). All contributors are list [here](README.md#hugs-acknowledgement).
 
 We like open-source and want to develop practical algorithms for general image restoration. However, individual strength is limited. So, any kinds of contributions are welcome, such as:
 
@@ -23,13 +24,13 @@ We like open-source and want to develop practical algorithms for general image r
 **Note**:
 
 1. Please check the code style and linting
-    1. The style configuration is specified in [setup.cfg](setup.cfg)
-    1. If you use VSCode, the settings are configured in [.vscode/settings.json](.vscode/settings.json)
+  1. The style configuration is specified in [setup.cfg](setup.cfg)
+  1. If you use VSCode, the settings are configured in [.vscode/settings.json](.vscode/settings.json)
 1. Strongly recommend using `pre-commit hook`. It will check your code style and linting before your commit.
-    1. In the root path of project folder, run `pre-commit install`
-    1. The pre-commit configuration is listed in [.pre-commit-config.yaml](.pre-commit-config.yaml)
+  1. In the root path of project folder, run `pre-commit install`
+  1. The pre-commit configuration is listed in [.pre-commit-config.yaml](.pre-commit-config.yaml)
 1. Better to [open a discussion](https://github.com/xinntao/Real-ESRGAN/discussions) before large changes.
-    1. Welcome to discuss :sunglasses:. I will try my best to join the discussion.
+  1. Welcome to discuss :sunglasses:. I will try my best to join the discussion.
 
 ## TODO List
 

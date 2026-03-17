@@ -17,12 +17,14 @@ We have compared our RealESRGAN-AnimeVideo-v3 with the following methods.
 Our RealESRGAN-AnimeVideo-v3 can achieve better results with faster inference speed.
 
 - [waifu2x](https://github.com/nihui/waifu2x-ncnn-vulkan) with the hyperparameters: `tile=0`, `noiselevel=2`
-- [Real-CUGAN](https://github.com/bilibili/ailab/tree/main/Real-CUGAN): we use the [20220227](https://github.com/bilibili/ailab/releases/tag/Real-CUGAN-add-faster-low-memory-mode) version, the hyperparameters are: `cache_mode=0`, `tile=0`, `alpha=1`.
+- [Real-CUGAN](https://github.com/bilibili/ailab/tree/main/Real-CUGAN): we use the [20220227](https://github.com/bilibili/ailab/releases/tag/Real-CUGAN-add-faster-low-memory-mode) version, the hyperparameters are:
+  `cache_mode=0`, `tile=0`, `alpha=1`.
 - our RealESRGAN-AnimeVideo-v3
 
 ## Results
 
-You may need to **zoom in** for comparing details, or **click the image** to see in the full size. Please note that the images
+You may need to **zoom in** for comparing details, or **click the image
+** to see in the full size. Please note that the images
 in the table below are the resized and cropped patches from the original images, you can download the original inputs and outputs from [Google Drive](https://drive.google.com/drive/folders/1bc_Hje1Nqop9NDkUvci2VACSjL7HZMRp?usp=sharing) .
 
 **More natural results, better background restoration**

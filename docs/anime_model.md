@@ -1,6 +1,8 @@
 # Anime Model
 
-:white_check_mark: We add [*RealESRGAN_x4plus_anime_6B.pth*](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.2.4/RealESRGAN_x4plus_anime_6B.pth), which is optimized for **anime** images with much smaller model size.
+:white_check_mark: We add [
+*RealESRGAN_x4plus_anime_6B.pth*](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.2.4/RealESRGAN_x4plus_anime_6B.pth), which is optimized for
+**anime** images with much smaller model size.
 
 - [How to Use](#how-to-use)
   - [PyTorch Inference](#pytorch-inference)
@@ -31,7 +33,8 @@ python inference_realesrgan.py -n RealESRGAN_x4plus_anime_6B -i inputs
 
 ### ncnn Executable File
 
-Download the latest portable [Windows](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-windows.zip) / [Linux](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip) / [MacOS](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-macos.zip) **executable files for Intel/AMD/Nvidia GPU**.
+Download the latest portable [Windows](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-windows.zip) / [Linux](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip) / [MacOS](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-macos.zip)
+**executable files for Intel/AMD/Nvidia GPU**.
 
 Taking the Windows as example, run:
 
@@ -41,7 +44,8 @@ Taking the Windows as example, run:
 
 ## Comparisons with waifu2x
 
-We compare Real-ESRGAN-anime with [waifu2x](https://github.com/nihui/waifu2x-ncnn-vulkan). We use the `-n 2 -s 4` for waifu2x.
+We compare Real-ESRGAN-anime with [waifu2x](https://github.com/nihui/waifu2x-ncnn-vulkan). We use the
+`-n 2 -s 4` for waifu2x.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/xinntao/public-figures/master/Real-ESRGAN/cmp_realesrgan_anime_1.png">
