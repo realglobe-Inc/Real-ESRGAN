@@ -62,9 +62,9 @@ class RealESRGANer:
 
         if isinstance(model_path, list):
             # dni
-            assert len(model_path) == len(
-                dni_weight
-            ), "model_path and dni_weight should have the save length."
+            assert len(model_path) == len(dni_weight), (
+                "model_path and dni_weight should have the save length."
+            )
             loadnet = self.dni(model_path[0], model_path[1], dni_weight)
         else:
             # if the model_path starts with https, it will first download models to the folder: weights
@@ -352,7 +352,6 @@ class PrefetchReader(threading.Thread):
 
 
 class IOConsumer(threading.Thread):
-
     def __init__(self, opt, que, qid):
         super().__init__()
         self._queue = que

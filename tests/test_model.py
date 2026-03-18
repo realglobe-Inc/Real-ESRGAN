@@ -3,7 +3,6 @@ import yaml
 from basicsr.archs.rrdbnet_arch import RRDBNet
 from basicsr.data.paired_image_dataset import PairedImageDataset
 from basicsr.losses.losses import GANLoss, L1Loss, PerceptualLoss
-
 from realesrgan.archs.discriminator_arch import UNetDiscriminatorSN
 from realesrgan.models.realesrgan_model import RealESRGANModel
 from realesrgan.models.realesrnet_model import RealESRNetModel

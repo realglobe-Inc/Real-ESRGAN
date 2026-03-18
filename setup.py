@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-from setuptools import find_packages, setup
-
 import os
 import subprocess
 import time
+
+from setuptools import find_packages, setup
 
 version_file = "realesrgan/version.py"
 

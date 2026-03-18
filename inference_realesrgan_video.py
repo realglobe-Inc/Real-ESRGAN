@@ -1,19 +1,19 @@
 import argparse
-import cv2
 import glob
 import mimetypes
-import numpy as np
 import os
 import shutil
 import subprocess
+from os import path as osp
+
+import cv2
+import numpy as np
 import torch
 from basicsr.archs.rrdbnet_arch import RRDBNet
 from basicsr.utils.download_util import load_file_from_url
-from os import path as osp
-from tqdm import tqdm
-
 from realesrgan import RealESRGANer
 from realesrgan.archs.srvgg_arch import SRVGGNetCompact
+from tqdm import tqdm
 
 try:
     import ffmpeg
@@ -72,7 +72,6 @@ def get_sub_video(args, num_process, process_idx):
 
 
 class Reader:
-
     def __init__(self, args, total_workers=1, worker_idx=0):
         self.args = args
         input_type = mimetypes.guess_type(args.input)[0]
@@ -104,8 +103,7 @@ class Reader:
                     1 if tot_frames % total_workers else 0
                 )
                 self.paths = paths[
-                    num_frame_per_worker
-                    * worker_idx : num_frame_per_worker
+                    num_frame_per_worker * worker_idx : num_frame_per_worker
                     * (worker_idx + 1)
                 ]
 
@@ -162,7 +160,6 @@ class Reader:
 
 
 class Writer:
-
     def __init__(self, args, audio, height, width, video_save_path, fps):
         out_width, out_height = int(width * args.outscale), int(height * args.outscale)
         if out_height > 2160:

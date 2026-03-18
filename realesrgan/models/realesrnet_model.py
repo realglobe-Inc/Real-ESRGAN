@@ -1,5 +1,6 @@
-import numpy as np
 import random
+
+import numpy as np
 import torch
 from basicsr.data.degradations import (
     random_add_gaussian_noise_pt,
@@ -42,9 +43,9 @@ class RealESRNetModel(SRModel):
         # initialize
         b, c, h, w = self.lq.size()
         if not hasattr(self, "queue_lr"):
-            assert (
-                self.queue_size % b == 0
-            ), f"queue size {self.queue_size} should be divisible by batch size {b}"
+            assert self.queue_size % b == 0, (
+                f"queue size {self.queue_size} should be divisible by batch size {b}"
+            )
             self.queue_lr = torch.zeros(self.queue_size, c, h, w).cuda()
             _, c, h, w = self.gt.size()
             self.queue_gt = torch.zeros(self.queue_size, c, h, w).cuda()
@@ -217,9 +218,7 @@ class RealESRNetModel(SRModel):
 
             # training pair pool
             self._dequeue_and_enqueue()
-            self.lq = (
-                self.lq.contiguous()
-            )  # for the warning: grad and param do not obey the gradient layout contract
+            self.lq = self.lq.contiguous()  # for the warning: grad and param do not obey the gradient layout contract
         else:
             # for paired training or validation
             self.lq = data["lq"].to(self.device)

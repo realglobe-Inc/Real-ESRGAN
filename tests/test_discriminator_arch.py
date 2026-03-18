@@ -1,5 +1,4 @@
 import torch
-
 from realesrgan.archs.discriminator_arch import UNetDiscriminatorSN
 
 

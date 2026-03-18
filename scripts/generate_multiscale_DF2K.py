@@ -1,6 +1,7 @@
 import argparse
 import glob
 import os
+
 from PIL import Image
 
 
@@ -34,7 +35,7 @@ def main(args):
             height = shortest_edge
             width = int(height * ratio)
         rlt = img.resize((int(width), int(height)), resample=Image.LANCZOS)
-        rlt.save(os.path.join(args.output, f"{basename}T{idx+1}.png"))
+        rlt.save(os.path.join(args.output, f"{basename}T{idx + 1}.png"))
 
 
 if __name__ == "__main__":

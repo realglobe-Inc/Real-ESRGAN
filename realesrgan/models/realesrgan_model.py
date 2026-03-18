@@ -1,5 +1,7 @@
-import numpy as np
 import random
+from collections import OrderedDict
+
+import numpy as np
 import torch
 from basicsr.data.degradations import (
     random_add_gaussian_noise_pt,
@@ -10,7 +12,6 @@ from basicsr.models.srgan_model import SRGANModel
 from basicsr.utils import DiffJPEG, USMSharp
 from basicsr.utils.img_process_util import filter2D
 from basicsr.utils.registry import MODEL_REGISTRY
-from collections import OrderedDict
 from torch.nn import functional as F
 
 
@@ -42,9 +43,9 @@ class RealESRGANModel(SRGANModel):
         # initialize
         b, c, h, w = self.lq.size()
         if not hasattr(self, "queue_lr"):
-            assert (
-                self.queue_size % b == 0
-            ), f"queue size {self.queue_size} should be divisible by batch size {b}"
+            assert self.queue_size % b == 0, (
+                f"queue size {self.queue_size} should be divisible by batch size {b}"
+            )
             self.queue_lr = torch.zeros(self.queue_size, c, h, w).cuda()
             _, c, h, w = self.gt.size()
             self.queue_gt = torch.zeros(self.queue_size, c, h, w).cuda()
@@ -217,9 +218,7 @@ class RealESRGANModel(SRGANModel):
             self._dequeue_and_enqueue()
             # sharpen self.gt again, as we have changed the self.gt with self._dequeue_and_enqueue
             self.gt_usm = self.usm_sharpener(self.gt)
-            self.lq = (
-                self.lq.contiguous()
-            )  # for the warning: grad and param do not obey the gradient layout contract
+            self.lq = self.lq.contiguous()  # for the warning: grad and param do not obey the gradient layout contract
         else:
             # for paired training or validation
             self.lq = data["lq"].to(self.device)

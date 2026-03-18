@@ -1,7 +1,8 @@
 import argparse
-import cv2
 import glob
 import os
+
+import cv2
 
 
 def main(args):

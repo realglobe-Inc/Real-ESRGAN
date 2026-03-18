@@ -1,6 +1,7 @@
 import importlib
-from basicsr.utils import scandir
 from os import path as osp
+
+from basicsr.utils import scandir
 
 # automatically scan and import dataset modules for registry
 # scan all the files that end with '_dataset.py' under the data folder

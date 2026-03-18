@@ -1,14 +1,14 @@
 import argparse
 import glob
 import os
-import sys
 from pathlib import Path
 
 import cv2
-from tqdm import tqdm
+from loguru import logger
+
+from src.util.logging import setup_logger
 
 from ..util.wrapper_base import copy_obj_and_mtl, get_textures_from_obj
-
 from .realesrgan import RealESRGANer
 
 
@@ -108,10 +108,21 @@ def main():
     parser.add_argument(
         "--input-ext", type=str, default="png", help="Input image extension"
     )
+    parser.add_argument(
+        "--log-level",
+        type=str,
+        default="INFO",
+        help="ログレベル (DEBUG, INFO, WARNING, ERROR)",
+    )
+    parser.add_argument(
+        "--log-path", type=Path, default=None, help="ログファイルの出力先パス"
+    )
 
     args = parser.parse_args()
     args.input = fix_relative_path(args.input)
     args.output = fix_relative_path(args.output)
+
+    setup_logger(args.log_level, args.log_path)
 
     # determine models according to model names
     args.model_name = args.model_name.split(".")[0]
@@ -211,19 +222,9 @@ def main():
 
     paths = sorted(list(set(paths)))
 
-    isatty = sys.stdout.isatty()
-    pbar = tqdm(
-        total=len(paths),
-        unit="file",
-        leave=False,
-        dynamic_ncols=isatty,
-        disable=not isatty,
-    )
     for idx, path in enumerate(paths):
         imgname, extension = os.path.splitext(os.path.basename(path))
-        pbar.set_description(imgname)
-        if not isatty:
-            print(f"Processing {imgname}")
+        logger.info(f"Processing {imgname}")
 
         img = cv2.imread(path, cv2.IMREAD_UNCHANGED)
         if len(img.shape) == 3 and img.shape[2] == 4:
@@ -235,8 +236,8 @@ def main():
             output = img
             output, _ = upsampler.enhance(img, outscale=args.outscale)
         except RuntimeError as error:
-            print("Error", error)
-            print(
+            logger.warning(f"Error {error}")
+            logger.info(
                 "If you encounter CUDA out of memory, try to set --tile with a smaller number."
             )
             output = img
@@ -254,9 +255,6 @@ def main():
             )
             os.makedirs(os.path.dirname(save_path), exist_ok=True)
             cv2.imwrite(save_path, output)
-
-            pbar.update(1)
-    pbar.close()
 
     # OBJ と MTL をコピー
     copy_obj_and_mtl(args.input, args.output, extension)

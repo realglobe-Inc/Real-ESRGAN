@@ -1,11 +1,12 @@
 import argparse
-import cv2
-import numpy as np
 import os
 import sys
-from basicsr.utils import scandir
 from multiprocessing import Pool
 from os import path as osp
+
+import cv2
+import numpy as np
+from basicsr.utils import scandir
 from tqdm import tqdm
 
 

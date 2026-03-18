@@ -25,7 +25,6 @@ except Exception:
 
 
 class Predictor(BasePredictor):
-
     def setup(self):
         os.makedirs("output", exist_ok=True)
         # download weights
