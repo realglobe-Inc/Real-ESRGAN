@@ -247,17 +247,11 @@ def main():
                 extension = args.ext
             if img_mode == "RGBA":  # RGBA images should be saved in png format
                 extension = "png"
-            if args.suffix == "":
-                new_image_path = os.path.join(
-                    os.path.dirname(path), f"{imgname}.{extension}"
-                )
-            else:
-                new_image_path = os.path.join(
-                    os.path.dirname(path), f"{imgname}_{args.suffix}.{extension}"
-                )
 
-            relative_path = os.path.relpath(new_image_path, start=Path(args.input))
-            save_path = os.path.join(args.output, "appearance", relative_path)
+            # 新仕様: appearance 直下に bldg_id.ext で保存
+            save_path = os.path.join(
+                args.output, "appearance", f"{imgname}.{extension}"
+            )
             os.makedirs(os.path.dirname(save_path), exist_ok=True)
             cv2.imwrite(save_path, output)
 
